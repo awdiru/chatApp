@@ -1,6 +1,5 @@
-package com.example.server.kafka;
+package com.example.server.message;
 
-import com.example.server.message.MessageService;
 import com.example.template.model.message.dto.model.ChatMessageDto;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,7 +8,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 @Slf4j
-public class KafkaConsumer {
+public class MessageConsumer {
     @Autowired
     private MessageService messageService;
 

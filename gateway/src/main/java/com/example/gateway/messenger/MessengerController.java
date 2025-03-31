@@ -1,7 +1,6 @@
 package com.example.gateway.messenger;
 
 import com.example.gateway.authorization.AuthorizationClient;
-import com.example.gateway.kafka.KafkaProducer;
 import com.example.template.model.exception.ExceptionResponse;
 import com.example.template.model.message.dto.model.ChatMessageDto;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,17 +12,18 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import static com.example.template.constants.Constants.AUTH_HEADER;
+
 @RestController
 @RequestMapping("/chatApp/send")
 public class MessengerController {
-    private static final String HEADER_JWT = "X-jwt";
     @Autowired
     private AuthorizationClient authorizationClient;
     @Autowired
-    private KafkaProducer kafkaProducer;
+    private MessengerClient messengerClient;
 
     @PostMapping
-    public ResponseEntity<?> sendMessage(@Header(HEADER_JWT) String authHeader,
+    public ResponseEntity<?> sendMessage(@Header(AUTH_HEADER) String authHeader,
                                          @RequestBody ChatMessageDto chatMessageDto) {
 
         ResponseEntity<?> valid = authorizationClient.validateToken(authHeader);
@@ -31,7 +31,7 @@ public class MessengerController {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(
                     new ExceptionResponse(HttpStatus.UNAUTHORIZED, "The user is not logged in", "/chatApp/send"));
 
-        kafkaProducer.sendMessage(chatMessageDto);
+        messengerClient.sendMessage(chatMessageDto);
         return ResponseEntity.ok("Message sent");
     }
 }

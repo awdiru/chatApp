@@ -26,6 +26,7 @@
 		<module>gateway</module>
 		<module>template</module>
 		<module>messenger</module>
+		<module>client</module>
 	</modules>
     <scm>
 		<connection/>

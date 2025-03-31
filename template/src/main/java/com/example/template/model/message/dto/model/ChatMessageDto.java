@@ -11,7 +11,7 @@ import java.time.LocalDateTime;
 @Builder
 public class ChatMessageDto {
     private LocalDateTime time;
-    private String toUser;
     private String fromUser;
+    private String toUser;
     private String message;
 }

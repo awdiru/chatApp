@@ -1,0 +1,2 @@
+chatApp-gateway:
+  url: ${CHAT_APP_GATEWAY:URL:http://localhost:8080}
