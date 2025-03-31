@@ -1,0 +1,19 @@
+server:
+  port: 9090
+
+spring:
+  application:
+    name: authorization
+
+  datasource:
+    url: jdbc:postgresql://localhost:5432/chatApp
+    username: user
+    password: password
+    driverClassName: org.postgresql.Driver
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+
+jwt:
+  secret: mySecretKey

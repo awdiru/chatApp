@@ -1,0 +1,24 @@
+server:
+  port: 9080
+
+spring:
+  kafka:
+    bootstrap-servers: localhost:9092
+    consumer:
+      group-id: messenger-group
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
+
+  application:
+    name: api-gateway
+
+  datasource:
+    url: jdbc:postgresql://localhost:5432/chatApp
+    username: user
+    password: password
+    driverClassName: org.postgresql.Driver
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
