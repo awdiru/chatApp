@@ -1,5 +1,6 @@
 package com.example.authorization.exception.handler;
 
+import com.example.authorization.annotation.AuthControllerExceptionHandler;
 import com.example.template.model.exception.ExceptionResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -7,7 +8,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
-@ControllerAdvice
+@ControllerAdvice(annotations = AuthControllerExceptionHandler.class)
 public class ExceptionHandlerAuth {
     private final String path = "/auth";
 

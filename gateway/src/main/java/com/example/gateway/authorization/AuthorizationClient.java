@@ -17,8 +17,7 @@ public class AuthorizationClient extends BaseClient {
 
     @Autowired
     public AuthorizationClient(@Value("${chatApp-authorization.url}") String serverUrl, RestTemplateBuilder builder) {
-        super(
-                builder.uriTemplateHandler(new DefaultUriBuilderFactory(serverUrl + API_PREFIX))
+        super(builder.uriTemplateHandler(new DefaultUriBuilderFactory(serverUrl + API_PREFIX))
                         .requestFactory(() -> new HttpComponentsClientHttpRequestFactory())
                         .build()
         );

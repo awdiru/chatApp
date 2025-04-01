@@ -1,19 +1,24 @@
-package com.example.authorization.controller;
+package com.example.authorization;
 
+import com.example.authorization.annotation.AuthControllerExceptionHandler;
 import com.example.authorization.util.JwtUtil;
 import com.example.template.model.user.User;
 import com.example.template.model.user.dto.model.authentication.AuthenticationRequest;
 import com.example.template.model.user.dto.model.authentication.AuthenticationResponse;
 import com.example.authorization.service.JwtService;
 import com.example.authorization.service.UserService;
-import io.jsonwebtoken.Claims;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import static com.example.template.constants.Constants.AUTH_HEADER;
+
 @RestController
 @RequestMapping("/auth")
+@Slf4j
+@AuthControllerExceptionHandler
 public class AuthController {
     @Autowired
     private JwtService jwtService;
@@ -27,7 +32,7 @@ public class AuthController {
     @PostMapping("/login")
     public ResponseEntity<?> createAuthenticationToken(@RequestBody AuthenticationRequest authenticationRequest)
             throws Exception {
-
+        log.warn("Login user: {}", authenticationRequest.getUsername());
         final String jwt = jwtService.createJwtToken(authenticationRequest);
         return ResponseEntity.ok(new AuthenticationResponse(jwt));
     }
@@ -35,25 +40,24 @@ public class AuthController {
     @PostMapping("/signup")
     public ResponseEntity<?> registerUser(@RequestBody User user) throws Exception {
 
-        if (userService.findByUserName(user.getUserName()) != null)
+        log.warn("SignUp user: {}", user.getUsername());
+        if (userService.findByUserName(user.getUsername()) != null)
             throw new RuntimeException("Username is already taken");
 
-        userService.save(user);
-
-        AuthenticationRequest authenticationRequest =
-                new AuthenticationRequest(user.getUserName(), user.getPassword());
-        final String jwt = jwtService.createJwtToken(authenticationRequest);
-        return ResponseEntity.ok(new AuthenticationResponse(jwt));
+        user = userService.save(user);
+        return ResponseEntity.ok(user);
     }
 
     @PostMapping("/validate")
-    public ResponseEntity<?> validateToken(@RequestHeader("X-jwt") String authHeader) {
+    public ResponseEntity<?> validateToken(@RequestHeader(AUTH_HEADER) String authHeader) {
+
+        log.warn("Validate authHeader: {}", authHeader);
         try {
             String token = authHeader.substring(7);
             jwtUtil.validateToken(token);
-            return ResponseEntity.ok().body("");
+            return ResponseEntity.ok("");
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("");
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("body");
         }
     }
 }

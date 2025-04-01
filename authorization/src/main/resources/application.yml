@@ -15,5 +15,14 @@ spring:
       ddl-auto: update
     show-sql: true
 
+  cloud:
+    gateway:
+      routes:
+        - id: gateway
+          uri: http://localhost:8080
+          predicates:
+            - Path=/example/**
+      default-filters:
+        - DedupeResponseHeader=Access-Control-Allow-Credentials Access-Control-Allow-Origin
 jwt:
-  secret: mySecretKey
+  secret: 09q7we4ygh8354tqphvne85y43q095876tjhpbzsodrthg8534706ty

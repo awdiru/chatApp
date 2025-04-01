@@ -1,4 +1,4 @@
-package com.example.server.message;
+package com.example.messenger.message;
 
 import com.example.template.model.message.dto.model.ChatMessageDto;
 import lombok.extern.slf4j.Slf4j;

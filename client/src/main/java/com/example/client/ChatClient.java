@@ -15,22 +15,24 @@ import com.example.template.model.message.dto.model.ChatMessageDto;
 import com.example.template.model.user.dto.model.authentication.AuthenticationRequest;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
 import org.springframework.messaging.converter.MappingJackson2MessageConverter;
 import org.springframework.messaging.simp.stomp.StompFrameHandler;
 import org.springframework.messaging.simp.stomp.StompHeaders;
 import org.springframework.messaging.simp.stomp.StompSession;
 import org.springframework.messaging.simp.stomp.StompSessionHandlerAdapter;
+import org.springframework.stereotype.Component;
 import org.springframework.web.socket.client.standard.StandardWebSocketClient;
 import org.springframework.web.socket.messaging.WebSocketStompClient;
 import org.springframework.web.socket.sockjs.client.SockJsClient;
 import org.springframework.web.socket.sockjs.client.WebSocketTransport;
+import org.springframework.beans.factory.annotation.Value;
 
 import static com.example.template.constants.Constants.AUTH_HEADER;
 
+@Component
 public class ChatClient {
-    private static final String HTTP_URL = "${chatApp-gateway.url}";
+    //@Value("${chatApp-gateway.url}")
+    private final String HTTP_URL = "http://localhost:8080";
     private static final String WS_URL = "ws://localhost:8080/ws";
     private final HttpClient httpClient;
     private final ObjectMapper objectMapper;

@@ -1,6 +1,6 @@
-package com.example.server.message;
+package com.example.messenger.message;
 
-import com.example.server.exceptions.handler.UserNotFoundException;
+import com.example.messenger.exceptions.handler.UserNotFoundException;
 import com.example.template.model.message.ChatMessage;
 import com.example.template.model.message.dto.model.ChatMessageDto;
 import com.example.template.model.user.User;

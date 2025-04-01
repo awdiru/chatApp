@@ -14,7 +14,7 @@ spring:
     name: api-gateway
 
   datasource:
-    url: jdbc:postgresql://localhost:5432/chatApp
+    url: jdbc:postgresql://localhost:6432/chatApp
     username: user
     password: password
     driverClassName: org.postgresql.Driver

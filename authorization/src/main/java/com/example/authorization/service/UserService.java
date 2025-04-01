@@ -2,6 +2,7 @@ package com.example.authorization.service;
 
 import com.example.template.model.user.User;
 import com.example.authorization.repository.UserRepository;
+import com.example.template.model.user.dto.model.authentication.AuthenticationRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -20,7 +21,7 @@ public class UserService {
     }
 
     public User findByUserName(String username) {
-        return userRepository.findByUserName(username)
+        return userRepository.findByUsername(username)
                 .orElse(null);
     }
 }

@@ -19,11 +19,12 @@ public class ChatClientGUI extends JFrame {
 
     private void initializeAuthDialog() {
         JDialog authDialog = new JDialog(this, "Authentication", true);
-        authDialog.setLayout(new GridLayout(3, 2));
+        authDialog.setLayout(new GridLayout(4, 2));
 
         JTextField usernameField = new JTextField();
         JPasswordField passwordField = new JPasswordField();
         JButton loginButton = new JButton("Login");
+        JButton signupButton = new JButton("SignUp");
 
         authDialog.add(new JLabel("Username:"));
         authDialog.add(usernameField);
@@ -31,6 +32,9 @@ public class ChatClientGUI extends JFrame {
         authDialog.add(passwordField);
         authDialog.add(new JLabel());
         authDialog.add(loginButton);
+        authDialog.add(new JLabel());
+        authDialog.add(signupButton);
+
 
         loginButton.addActionListener(e -> {
             try {
@@ -46,21 +50,34 @@ public class ChatClientGUI extends JFrame {
                     authDialog.dispose();
                     client.startClient();
                 } else {
-                    success = client.login(
-                            usernameField.getText(),
-                            new String(passwordField.getPassword()),
-                            "signup"
-                    );
-                    if (success) {
-                        currentUser = usernameField.getText();
-                        authDialog.dispose();
-                        client.startClient();
-                    } else {
-                        JOptionPane.showMessageDialog(authDialog,
-                                "Invalid credentials",
-                                "Auth Error",
-                                JOptionPane.ERROR_MESSAGE);
-                    }
+                    JOptionPane.showMessageDialog(authDialog,
+                            "Invalid credentials",
+                            "Auth Error",
+                            JOptionPane.ERROR_MESSAGE);
+                }
+            } catch (Exception ex) {
+                handleError(ex);
+            }
+        });
+
+        signupButton.addActionListener(e -> {
+            try {
+                this.client = new ChatClient(this::onMessageReceived);
+                boolean success = client.login(
+                        usernameField.getText(),
+                        new String(passwordField.getPassword()),
+                        "/signup"
+                );
+
+                if (success) {
+                    currentUser = usernameField.getText();
+                    authDialog.dispose();
+                    client.startClient();
+                } else {
+                    JOptionPane.showMessageDialog(authDialog,
+                            "Invalid credentials",
+                            "Auth Error",
+                            JOptionPane.ERROR_MESSAGE);
                 }
             } catch (Exception ex) {
                 handleError(ex);
