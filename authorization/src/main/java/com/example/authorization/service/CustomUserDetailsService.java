@@ -1,7 +1,7 @@
 package com.example.authorization.service;
 
-import com.example.template.model.user.User;
 import com.example.authorization.repository.UserRepository;
+import com.example.template.model.user.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -21,6 +21,6 @@ public class CustomUserDetailsService implements UserDetailsService {
                 .orElseThrow(() -> new UsernameNotFoundException("User not found with name: " + name));
 
         return new org.springframework.security.core.userdetails
-                .User(user.getName(), user.getPassword(), new ArrayList<>());
+                .User(user.getUserName(), user.getPassword(), new ArrayList<>());
     }
 }

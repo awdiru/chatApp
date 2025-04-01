@@ -35,13 +35,13 @@ public class AuthController {
     @PostMapping("/signup")
     public ResponseEntity<?> registerUser(@RequestBody User user) throws Exception {
 
-        if (userService.findByUserName(user.getName()) != null)
+        if (userService.findByUserName(user.getUserName()) != null)
             throw new RuntimeException("Username is already taken");
 
         userService.save(user);
 
         AuthenticationRequest authenticationRequest =
-                new AuthenticationRequest(user.getName(), user.getPassword());
+                new AuthenticationRequest(user.getUserName(), user.getPassword());
         final String jwt = jwtService.createJwtToken(authenticationRequest);
         return ResponseEntity.ok(new AuthenticationResponse(jwt));
     }

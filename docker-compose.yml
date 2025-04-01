@@ -1,9 +1,9 @@
 services:
   db:
-    image: postgres:17
+    image: postgres:16.1
     container_name: postgres
     ports:
-      - "5432:5432"
+      - "6432:5432"
     environment:
       - POSTGRES_DB=chatApp
       - POSTGRES_USER=user
@@ -33,3 +33,44 @@ services:
       KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
     depends_on:
       - zookeeper
+
+  gateway:
+    build: gateway
+    image: gateway
+    container_name: gateway
+    ports:
+      - "8080:8080"
+    depends_on:
+      - authorization
+    environment:
+      - CHAT_APP_AUTHORIZATION=http://server:9090
+
+  authorization:
+    build: authorization
+    image: authorization
+    container_name: authorization
+    ports:
+      - "9090:9090"
+    depends_on:
+      - db
+    environment:
+      - SPRING_DATASOURCE_DRIVERCLASSNAME=org.postgresql.Driver
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://db:5432/chatApp
+      - SPRING_DATASOURCE_USERNAME=user
+      - SPRING_DATASOURCE_PASSWORD=password
+
+  messenger:
+    build: messenger
+    image: messenger
+    container_name: messenger
+    ports:
+      - "9080:9080"
+    depends_on:
+      - db
+      - kafka
+      - gateway
+    environment:
+      - SPRING_DATASOURCE_DRIVERCLASSNAME=org.postgresql.Driver
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://db:5432/chatApp
+      - SPRING_DATASOURCE_USERNAME=user
+      - SPRING_DATASOURCE_PASSWORD=password
