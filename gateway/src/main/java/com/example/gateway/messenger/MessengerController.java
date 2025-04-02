@@ -1,6 +1,7 @@
 package com.example.gateway.messenger;
 
 import com.example.gateway.authorization.AuthorizationClient;
+import com.example.gateway.cash.CashService;
 import com.example.template.model.exception.ExceptionResponse;
 import com.example.template.model.message.dto.model.ChatMessageDto;
 import com.example.template.model.user.dto.model.authentication.AuthenticationRequest;
@@ -29,7 +30,9 @@ public class MessengerController {
         ResponseEntity<?> valid = authorizationClient.validateToken(authHeader);
         if (!valid.getStatusCode().is2xxSuccessful())
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(
-                    new ExceptionResponse(HttpStatus.UNAUTHORIZED, "The user is not logged in", "/chatApp/send"));
+                    new ExceptionResponse(HttpStatus.UNAUTHORIZED.value(),
+                            "The user is not logged in",
+                            "/chatApp/send"));
 
         messengerClient.sendMessage(chatMessageDto);
         return ResponseEntity.ok("Message sent");

@@ -14,16 +14,13 @@ public class ExceptionHandlerAuth {
 
     @ExceptionHandler(UsernameNotFoundException.class)
     public ResponseEntity<ExceptionResponse> handleUsernameNotFoundException(UsernameNotFoundException e) {
-        return response(HttpStatus.BAD_REQUEST, e.getMessage(), path);
+        ExceptionResponse response = new ExceptionResponse(HttpStatus.BAD_REQUEST.value(), e.getMessage(), path);
+        return ResponseEntity.badRequest().body(response);
     }
 
     @ExceptionHandler(RuntimeException.class)
     public ResponseEntity<ExceptionResponse> handleRuntimeException(RuntimeException e) {
-        return response(HttpStatus.CONFLICT, e.getMessage(), path);
-    }
-
-    private static ResponseEntity<ExceptionResponse> response(HttpStatus status, String message, String path) {
-        ExceptionResponse response = new ExceptionResponse(status, message, path);
-        return new ResponseEntity<>(response, status);
+        ExceptionResponse response = new ExceptionResponse(HttpStatus.CONFLICT.value(), e.getMessage(), path);
+        return ResponseEntity.status(HttpStatus.CONFLICT).body(response);
     }
 }

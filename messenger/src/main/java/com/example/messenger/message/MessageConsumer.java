@@ -14,7 +14,7 @@ public class MessageConsumer {
 
     @KafkaListener(topics = "chat-messages", groupId = "messenger-group")
     public void consume(ChatMessageDto chatMessageDto) {
-        log.debug("message from {} to {}", chatMessageDto.getFromUser(), chatMessageDto.getToUser());
+        log.debug("message from {} to {} message: {}", chatMessageDto.getFromUser(), chatMessageDto.getToUser(), chatMessageDto.getMessage());
         ChatMessageDto message = messageService.saveMessage(chatMessageDto);
         messageService.sendToRecipient(message);
     }

@@ -10,8 +10,8 @@ import java.time.LocalDateTime;
 @Setter
 @Builder
 public class ChatMessageDto {
-    private LocalDateTime time;
     private String fromUser;
     private String toUser;
     private String message;
+    private LocalDateTime time;
 }

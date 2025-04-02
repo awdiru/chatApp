@@ -10,11 +10,11 @@ import java.time.LocalDateTime;
 @Setter
 public class ExceptionResponse {
     private LocalDateTime timestamp;
-    private HttpStatus status;
+    private int status;
     private String error;
     private String path;
 
-    public ExceptionResponse(HttpStatus status, String error, String path) {
+    public ExceptionResponse(int status, String error, String path) {
         this.timestamp = LocalDateTime.now();
         this.status = status;
         this.error = error;
