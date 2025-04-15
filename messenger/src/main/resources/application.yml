@@ -2,22 +2,14 @@ server:
   port: 9070
 
 spring:
-  kafka:
-    bootstrap-servers: http://localhost:9092/
-    producer:
-      key-serializer: org.apache.kafka.common.serialization.StringSerializer
-      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
-      group-id: messenger-group
-    consumer:
-      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
-      value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
-      group-id: messenger-group
-      properties:
-        spring.json.trusted.packages: "com.example.template.model.message.dto.model"  # Пакет с ChatMessageDto
-        spring.json.value.default.type: com.example.template.model.message.dto.model.ChatMessageDto
-
   application:
-    name: api-gateway
+    name: messenger
+
+  kafka:
+    bootstrap-servers: localhost:9092
+    consumer:
+      group-id: messenger-group
+      auto-offset-reset: earliest
 
   datasource:
     url: jdbc:postgresql://localhost:6432/chatApp

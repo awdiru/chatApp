@@ -2,7 +2,7 @@ server:
   port: 8080
 
 chatApp-authorization:
-    url: ${CHAT_APP_AUTHORIZATION_URL:http://localhost:9090}
+  url: ${CHAT_APP_AUTHORIZATION_URL:http://localhost:9090}
 
 spring:
   application: gateway
@@ -10,9 +10,8 @@ spring:
     bootstrap-servers: localhost:9092
     consumer:
       group-id: messenger-group
-    producer:
-      key-serializer: org.apache.kafka.common.serialization.StringSerializer
-      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
+      auto-offset-reset: earliest
+
   sql:
     init:
       mode: always

@@ -39,9 +39,7 @@ public class MessageService {
     }
 
     public void sendToRecipient(ChatMessageDto message) {
-        String recipient = message.getToUser();
-        String destination = "/topic/user/" + recipient;
-
+        String destination = "/topic/user/" + message.getToUser();
         messagingTemplate.convertAndSend(destination, message);
     }
 }

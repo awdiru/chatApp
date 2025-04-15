@@ -25,7 +25,6 @@ import org.springframework.web.socket.client.standard.StandardWebSocketClient;
 import org.springframework.web.socket.messaging.WebSocketStompClient;
 import org.springframework.web.socket.sockjs.client.SockJsClient;
 import org.springframework.web.socket.sockjs.client.WebSocketTransport;
-import org.springframework.beans.factory.annotation.Value;
 
 import static com.example.template.constants.Constants.AUTH_HEADER;
 
@@ -63,7 +62,7 @@ public class ChatClient {
         return false;
     }
 
-    public void sendMessage(String message,String fromUser ,String toUser) throws IOException, InterruptedException {
+    public void sendMessage(String message, String fromUser, String toUser) throws IOException, InterruptedException {
         ChatMessageDto chatMessageDto = ChatMessageDto.builder()
                 .message(message)
                 .toUser(toUser)
@@ -92,8 +91,7 @@ public class ChatClient {
 
         String username = getCurrentUsername();
         this.stompSession = stompClient.connectAsync(WS_URL, new StompSessionHandlerAdapter() {
-                })
-                .get();
+        }).get();
 
         // Подписка на персональную очередь
         stompSession.subscribe("/topic/user/" + username, new StompFrameHandler() {
